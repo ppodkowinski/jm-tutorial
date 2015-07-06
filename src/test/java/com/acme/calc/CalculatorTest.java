@@ -16,7 +16,7 @@ public class CalculatorTest {
 		Double result = calculator.add(firstNumber, secondNumber);
 		// then
 		Assert.assertTrue(result == 11);
-		
+
 	}
 
 	@Test
@@ -26,8 +26,9 @@ public class CalculatorTest {
 		// when
 		Double result = calculator.subtract(secondNumber, firstNumber);
 		// then
-		Assert.assertTrue(result == 1);	
+		Assert.assertTrue(result == 1);
 	}
+
 	@Test
 	public void multiplyShouldReturnCorrectResult() {
 		double firstNumber = 5.0;
@@ -35,8 +36,9 @@ public class CalculatorTest {
 		// when
 		Double result = calculator.multiply(firstNumber, secondNumber);
 		// then
-		Assert.assertTrue(result == 30);	
+		Assert.assertTrue(result == 30);
 	}
+
 	@Test
 	public void DivideShouldReturnCorrectResult() {
 		double firstNumber = 6.0;
@@ -44,7 +46,19 @@ public class CalculatorTest {
 		// when
 		Double result = calculator.divide(firstNumber, secondNumber);
 		// then
-		Assert.assertTrue(result == 1.0);	
+		Assert.assertTrue(result == 1.0);
 	}
 
+	@Test
+	public void DivideTwoShouldReturnCorrectResult() {
+		double firstNumber = 6.0;
+		double secondNumber = 0.0;
+		// when
+		try {
+			calculator.divide(firstNumber, secondNumber);
+		} catch (DivisorCannotBeZeroException x) {
+			// then
+			Assert.assertTrue(true);			
+		}
+	}
 }
