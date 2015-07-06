@@ -11,8 +11,19 @@ public class PizzaOrderService {
 	private OrderFactory orderFactory;
 
 	private DeliveryTimeService deliveryTimeService;
-	
+
 	private MessageTemplateService messageTemplate;
+	
+	
+	public PizzaOrderService(MailSender mailSender, OrderDatabase orderDatabase, OrderFactory orderFactory,
+			DeliveryTimeService deliveryTimeService, MessageTemplateService messageTemplate) {
+		super();
+		this.mailSender = mailSender;
+		this.orderDatabase = orderDatabase;
+		this.orderFactory = orderFactory;
+		this.deliveryTimeService = deliveryTimeService;
+		this.messageTemplate = messageTemplate;
+	}
 
 	public void createOrder(Customer customer, PizzaType type) {
 		try {
