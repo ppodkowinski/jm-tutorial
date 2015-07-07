@@ -134,6 +134,8 @@ public class SlideshowService {
 		out.setCaption(resource.getName());
 		out.setThumbnail(resource.getId());
 		return out;
+		
+		
 	}
 
 	private HashMap<String, Asset> resourcesToAssetMap(Iterable<Resource> resources) {
