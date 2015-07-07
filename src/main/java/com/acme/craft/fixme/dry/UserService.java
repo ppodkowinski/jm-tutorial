@@ -8,10 +8,12 @@ import java.util.Collection;
 
 public class UserService {
 
+	private static final int AGE_ADULT = 18;
+
 	public HashSet doSomethingDifferent(List<User> users) {
 		HashSet<String> usrnms = new HashSet<String>();
 		for (int i = users.size(); i >= 0; i--) {
-			if (users.get(i).getAge() > 18) {
+			if (users.get(i).getAge() > AGE_ADULT) {
 				String temp = users.get(i).getFullName();
 				usrnms.add(temp);
 			}
