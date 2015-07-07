@@ -9,7 +9,8 @@ public class PropertyRepository {
 		return Optional.empty();
 	}
 
-	public void save(Property property) {
+	public void save(Optional<Property> property) {
 		// sth sophisticated happened...
 	}
+	
 }

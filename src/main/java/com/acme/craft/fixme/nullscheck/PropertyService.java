@@ -15,5 +15,5 @@ public class PropertyService {
 		} else {
             throw new RuntimeException("Property not found:" + propertyId);
         }
-	}
+	}		
 }
