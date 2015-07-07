@@ -4,21 +4,15 @@ public class GraphicsEditor {
 	
 	
 	public void drawCircle(Circle s) {
-		
+		s.draw();
 	}
 	
 	public void drawRectangle(Rectangle s) {
-		
+		s.draw();
 	}
 	
 	public void drawShape(Shape s) {
-		if (s instanceof Rectangle) {
-			Rectangle rectangle = (Rectangle) s;
-			drawRectangle(rectangle);
-		} if (s instanceof Circle) {
-			Circle circle = (Circle) s;
-			drawCircle(circle);
-		}
+		
 	}
 
 }

@@ -25,7 +25,7 @@ public class NameValidator {
 		StringBuilder stb = new StringBuilder();
 		stb.append("Provided name is not valid. First name: ").append(firstName).append(", last name: ")
 				.append(lastName).append(", nick: ").append(nick);
-		log.in
+	//	log.in
 		return stb.toString();
 	}
 
