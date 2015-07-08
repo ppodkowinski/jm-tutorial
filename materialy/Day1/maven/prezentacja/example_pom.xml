@@ -1,0 +1,537 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.comarch.fsm.etisalat</groupId>
+	<artifactId>etisalat-fsm</artifactId>
+	<packaging>pom</packaging>
+	<version>4.6.3.4-SNAPSHOT</version>
+	<name>FSM - ${deployment.descriptor}</name>
+
+	<parent>
+		<groupId>com.comarch.fsm</groupId>
+		<artifactId>master-config</artifactId>
+		<version>1.13</version>
+	</parent>
+
+	<scm>
+		<connection>scm:svn:svn://gucio/mwm-framework/trunk/fsm-source-code/fsm-deployments/etisalat-deployment/trunk</connection>
+		<developerConnection>scm:svn:svn://gucio/mwm-framework/trunk/fsm-source-code/fsm-deployments/etisalat-deployment/trunk</developerConnection>
+	</scm>
+
+	<properties>
+		<deployment>etisalat</deployment>
+		<deployment.descriptor>Etisalat</deployment.descriptor>
+		<!-- web.xml -->
+		<javax.faces.FACELETS_REFRESH_PERIOD>-1</javax.faces.FACELETS_REFRESH_PERIOD>
+	</properties>
+
+	<modules>
+		<module>backend</module>
+		<module>frontend</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Core BE -->
+			<dependency>
+				<groupId>com.comarch.fsm</groupId>
+				<artifactId>be-api</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>com.comarch.fsm</groupId>
+				<artifactId>be-impl</artifactId>
+				<version>${project.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.comarch.fsm</groupId>
+				<artifactId>gis-google</artifactId>
+				<version>${project.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<!-- Deployment BE -->
+			<!-- <dependency> <groupId>${project.groupId}</groupId> <artifactId>etisalat-be-api</artifactId> <version>${project.version}</version> 
+				<type>pom</type> </dependency> -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>etisalat-be-impl</artifactId>
+				<version>${project.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-bundle</artifactId>
+				<version>1.19</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.8.4</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+
+	</dependencyManagement>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<appended.spring.profiles>mock</appended.spring.profiles>
+				<!-- DB -->
+				<db.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</db.url>
+				<db.username>dev_fsm</db.username>
+				<db.password>dev_fsm</db.password>
+				<reportdb.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</reportdb.url>
+				<reportdb.username>dev_fsm</reportdb.username>
+				<reportdb.password>dev_fsm</reportdb.password>
+				<finderdb.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</finderdb.url>
+				<finderdb.username>dev_fsm</finderdb.username>
+				<finderdb.password>dev_fsm</finderdb.password>
+				<hibernate.showSql>true</hibernate.showSql>
+
+				<connectionPool.initialSize>1</connectionPool.initialSize>
+				<connectionPool.minIdle>1</connectionPool.minIdle>
+				<connectionPool.maxIdle>1</connectionPool.maxIdle>
+				<connectionPool.maxActive>15</connectionPool.maxActive>
+
+				<reportingConnectionPool.initialSize>1</reportingConnectionPool.initialSize>
+				<reportingConnectionPool.minIdle>1</reportingConnectionPool.minIdle>
+				<reportingConnectionPool.maxIdle>1</reportingConnectionPool.maxIdle>
+				<reportingConnectionPool.maxActive>15</reportingConnectionPool.maxActive>
+
+				<!-- JMS -->
+				<jms.url>t3://maja-etisalat.lodz2.comarch:8080</jms.url>
+				<jms.username>JmsUser</jms.username>
+				<jms.password>JmsUser-pass</jms.password>
+				<jms.servername>FSMJMSServer</jms.servername>
+				<jms.modulename>FSMSystemModule</jms.modulename>
+
+				<!-- e-mail -->
+				<email.host>smtp.comarch.com</email.host>
+				<email.port>25</email.port>
+				<email.protocol>smtp</email.protocol>
+				<email.username>info.co610@servers</email.username>
+				<email.password>6vUyLZutv</email.password>
+
+				<!-- tells where redirect when https is not supported -->
+				<http.port>8080</http.port>
+				<!-- tells where redirect when http is not supported -->
+				<https.port>8443</https.port>
+
+				<!-- Load balancer -->
+				<application.url>http://maja-etisalat.lodz.comarch:8080</application.url>
+
+				<!-- NAVIGO -->
+				<navigo.component.address>http://maja-etisalat.lodz.comarch/navigo</navigo.component.address>
+				<gis.server.address>http://navigo.lodz.comarch/MapService/MapService.asmx</gis.server.address>
+				<map.component>google</map.component>
+
+				<!-- Notifications -->
+				<notifications.keystore.location>/u01/app/tomcatdev/.keystore</notifications.keystore.location>
+				<notifications.keystore.password>tomcat</notifications.keystore.password>
+				<notifications.keystore.privatekey.password>tomcat</notifications.keystore.privatekey.password>
+				<notifications.endpoint.url>
+					http://maja-etisalat.lodz.comarch:8080/fsm-integration/biztalk-endpoint
+				</notifications.endpoint.url>
+				<notifications.sms-gateway.url>
+					https://maja-etisalat.lodz.comarch:8080/fsm-integration/smsgateway-endpoint
+				</notifications.sms-gateway.url>
+
+				<!--Dispatcher -->
+				<dispatcher.logs.switched.on>true</dispatcher.logs.switched.on>
+				<dispatcher.logs.level>INFO</dispatcher.logs.level>
+
+				<smsgateway.auth.application>FSM</smsgateway.auth.application>
+				<smsgateway.auth.username>fsm</smsgateway.auth.username>
+				<smsgateway.auth.password>WY\u015AL\u0118 SMSEM</smsgateway.auth.password>
+
+				<!-- Kerberos -->
+				<kerberos.conf.file>/etc/krb5.conf</kerberos.conf.file>
+				<kerberos.keytab.file>file:/etc/krb5.keytab</kerberos.keytab.file>
+				<kerberos.domain.name>fsm.local</kerberos.domain.name>
+				<kerberos.service.principal>HTTP/krecik-mwm.fsm.local@FSM.LOCAL</kerberos.service.principal>
+				<!-- ActiveDirectory LDAP -->
+				<ad.ldap.url>ldap://sso.lodz2.comarch:389</ad.ldap.url>
+				<ad.ldap.domain>fsm.local</ad.ldap.domain>
+
+				<!-- JMS monitoring -->
+				<queue.monitoring.enabled>false</queue.monitoring.enabled>
+				<queue.monitoring.jmx.username />
+				<queue.monitoring.jmx.password />
+				<queue.monitoring.regexp>^.*DLQ.*$</queue.monitoring.regexp>
+				<queue.monitoring.include.empty.queues>true</queue.monitoring.include.empty.queues>
+				<queue.monitoring.connection.problem.notification>true</queue.monitoring.connection.problem.notification>
+				<queue.monitoring.service.url>service:jmx:rmi:///jndi/rmi://maja-etisalat.lodz.comarch:11099/jmxrmi</queue.monitoring.service.url>
+
+				<!-- CACHE -->
+				<cache.peer.provider.config>peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=4441,
+					timeToLive=32</cache.peer.provider.config>
+				<cache.peer.listener.config.integration>port=40001</cache.peer.listener.config.integration>
+				<cache.peer.listener.config.mobile>port=40002</cache.peer.listener.config.mobile>
+				<cache.peer.listener.config.web>port=40003</cache.peer.listener.config.web>
+
+				<!-- CORE JOBS CRON TRIGGERS -->
+
+				<!-- Monitoring kolejek JMS -->
+				<queue.monitoring.trigger>0 0 22 * * ?</queue.monitoring.trigger>
+				<!-- Zaplanowane aktywacje/deaktywacje typow -->
+				<scheduled.type.changes.executor.job.trigger>0 0/5 * * * ?</scheduled.type.changes.executor.job.trigger>
+				<!-- Joby dispatchera -->
+				<dispatcher.kill.zombie.partition.job.trigger>0 * * * * ?</dispatcher.kill.zombie.partition.job.trigger>
+				<dispatcher.queued.task.collector.job.trigger>0 * * * * ?</dispatcher.queued.task.collector.job.trigger>
+				<dispatcher.update.priorities.job.trigger>0 0 1 * * ?</dispatcher.update.priorities.job.trigger>
+				<dispatcher.update.taskTimes.job.trigger>0 30 1 * * ?</dispatcher.update.taskTimes.job.trigger>
+				<!-- Nocna optymalizacja -->
+				<dispatcher.no.job.trigger>0 0 2 * * ?</dispatcher.no.job.trigger>
+				<!-- Synchronizacja mobile -->
+				<mobile.synchronization.trigger>0 0 1 * * ?</mobile.synchronization.trigger>
+				<!-- Raporty -->
+				<report.schedule.service.enqueue.job.cron>0 0 * * * ?</report.schedule.service.enqueue.job.cron>
+				<report.schedule.service.enqueue.messenger.job.cron>0 * * * * ?</report.schedule.service.enqueue.messenger.job.cron>
+				<!-- Zlecenia,zadania -->
+				<!-- Przeterminowane zlecenia -->
+				<overdue.depending.sla.code.job.trigger>0 15 0 * * ?</overdue.depending.sla.code.job.trigger>
+				<encapsulation.job.trigger>0 30 0 * * ?</encapsulation.job.trigger>
+				<!-- Zlecenia starsze niz (parametr systemowy) -->
+				<workorders.too.old.job.trigger>0 45 0 * * ?</workorders.too.old.job.trigger>
+				<!-- Retencja danych -->
+				<data.retention.job.trigger>0 20 0 * * ?</data.retention.job.trigger>
+				<!-- web.xml -->
+				<javax.faces.FACELETS_REFRESH_PERIOD>0</javax.faces.FACELETS_REFRESH_PERIOD>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>com.comarch.fsm</groupId>
+					<artifactId>gis-google</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.hibernate.javax.persistence</groupId>
+							<artifactId>hibernate-jpa-2.0-api</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>qa</id>
+			<properties>
+				<appended.spring.profiles>mock</appended.spring.profiles>
+				<!-- DB -->
+				<db.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</db.url>
+				<db.username>qa_fsm</db.username>
+				<db.password>qa_fsm</db.password>
+				<reportdb.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</reportdb.url>
+				<reportdb.username>qa_fsm</reportdb.username>
+				<reportdb.password>qa_fsm</reportdb.password>
+				<finderdb.url>jdbc:oracle:thin:@maja-etisalat.lodz.comarch:1521:fsmp</finderdb.url>
+				<finderdb.username>qa_fsm</finderdb.username>
+				<finderdb.password>qa_fsm</finderdb.password>
+				<hibernate.showSql>true</hibernate.showSql>
+
+				<connectionPool.initialSize>5</connectionPool.initialSize>
+				<connectionPool.minIdle>5</connectionPool.minIdle>
+				<connectionPool.maxIdle>10</connectionPool.maxIdle>
+				<connectionPool.maxActive>20</connectionPool.maxActive>
+
+				<reportingConnectionPool.initialSize>1</reportingConnectionPool.initialSize>
+				<reportingConnectionPool.minIdle>3</reportingConnectionPool.minIdle>
+				<reportingConnectionPool.maxIdle>5</reportingConnectionPool.maxIdle>
+				<reportingConnectionPool.maxActive>15</reportingConnectionPool.maxActive>
+
+				<!-- JMS -->
+				<jms.url>t3://maja-etisalat.lodz2.comarch:9090</jms.url>
+				<jms.username>weblogicqa</jms.username>
+				<jms.password>weblogicqa-etisalat</jms.password>
+				<jms.servername>FSMJMSServer</jms.servername>
+				<jms.modulename>FSMSystemModule</jms.modulename>
+
+				<!-- e-mail -->
+				<email.host>smtp.comarch.com</email.host>
+				<email.port>25</email.port>
+				<email.protocol>smtp</email.protocol>
+				<email.username>info.co610@servers</email.username>
+				<email.password>6vUyLZutv</email.password>
+
+				<!-- tells where redirect when https is not supported -->
+				<http.port>9090</http.port>
+				<!-- tells where redirect when http is not supported -->
+				<https.port>9443</https.port>
+
+				<!-- Load balancer -->
+				<application.url>http://maja-etisalat.lodz.comarch:9090</application.url>
+
+				<!-- NAVIGO -->
+				<navigo.component.address>http://maja-etisalat.lodz.comarch/navigo</navigo.component.address>
+				<gis.server.address>http://navigo.lodz.comarch/MapService/MapService.asmx</gis.server.address>
+				<map.component>google</map.component>
+
+				<!-- Notifications -->
+				<notifications.keystore.location>/u01/app/tomcatdev/.keystore</notifications.keystore.location>
+				<notifications.keystore.password>tomcat</notifications.keystore.password>
+				<notifications.keystore.privatekey.password>tomcat</notifications.keystore.privatekey.password>
+				<notifications.endpoint.url>
+					http://maja-etisalat.lodz.comarch:9090/fsm-integration/biztalk-endpoint
+				</notifications.endpoint.url>
+				<notifications.sms-gateway.url>
+					http://maja-etisalat.lodz.comarch:9090/fsm-integration/smsgateway-endpoint
+				</notifications.sms-gateway.url>
+
+				<!--Dispatcher -->
+				<dispatcher.logs.switched.on>true</dispatcher.logs.switched.on>
+				<dispatcher.logs.level>INFO</dispatcher.logs.level>
+
+				<smsgateway.auth.application>FSM</smsgateway.auth.application>
+				<smsgateway.auth.username>fsm</smsgateway.auth.username>
+				<smsgateway.auth.password>WY\u015AL\u0118 SMSEM</smsgateway.auth.password>
+
+				<!-- Kerberos -->
+				<kerberos.conf.file>/etc/krb5.conf</kerberos.conf.file>
+				<kerberos.keytab.file>file:/etc/krb5.keytab</kerberos.keytab.file>
+				<kerberos.domain.name>fsm.local</kerberos.domain.name>
+				<kerberos.service.principal>HTTP/krecik-mwm.fsm.local@FSM.LOCAL</kerberos.service.principal>
+				<!-- ActiveDirectory LDAP -->
+				<ad.ldap.url>ldap://sso.lodz2.comarch:389</ad.ldap.url>
+				<ad.ldap.domain>fsm.local</ad.ldap.domain>
+
+				<!-- JMS monitoring -->
+				<queue.monitoring.enabled>false</queue.monitoring.enabled>
+				<queue.monitoring.jmx.username />
+				<queue.monitoring.jmx.password />
+				<queue.monitoring.regexp>^.*DLQ.*$</queue.monitoring.regexp>
+				<queue.monitoring.include.empty.queues>true</queue.monitoring.include.empty.queues>
+				<queue.monitoring.connection.problem.notification>true</queue.monitoring.connection.problem.notification>
+				<queue.monitoring.service.url>service:jmx:rmi:///jndi/rmi://krecik-mmp.lodz2.comarch:11099/jmxrmi</queue.monitoring.service.url>
+
+				<!-- CACHE -->
+				<cache.peer.provider.config>peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=5441,
+					timeToLive=32</cache.peer.provider.config>
+				<cache.peer.listener.config.integration>port=50001</cache.peer.listener.config.integration>
+				<cache.peer.listener.config.mobile>port=50002</cache.peer.listener.config.mobile>
+				<cache.peer.listener.config.web>port=50003</cache.peer.listener.config.web>
+
+				<!-- CORE JOBS CRON TRIGGERS -->
+
+				<!-- Monitoring kolejek JMS -->
+				<queue.monitoring.trigger>0 0 22 * * ?</queue.monitoring.trigger>
+				<!-- Zaplanowane aktywacje/deaktywacje typow -->
+				<scheduled.type.changes.executor.job.trigger>0 0/5 * * * ?</scheduled.type.changes.executor.job.trigger>
+				<!-- Joby dispatchera -->
+				<dispatcher.kill.zombie.partition.job.trigger>0 * * * * ?</dispatcher.kill.zombie.partition.job.trigger>
+				<dispatcher.queued.task.collector.job.trigger>0 * * * * ?</dispatcher.queued.task.collector.job.trigger>
+				<dispatcher.update.priorities.job.trigger>0 0 1 * * ?</dispatcher.update.priorities.job.trigger>
+				<dispatcher.update.taskTimes.job.trigger>0 30 1 * * ?</dispatcher.update.taskTimes.job.trigger>
+				<!-- Nocna optymalizacja -->
+				<dispatcher.no.job.trigger>0 0 2 * * ?</dispatcher.no.job.trigger>
+				<!-- Synchronizacja mobile -->
+				<mobile.synchronization.trigger>0 0 1 * * ?</mobile.synchronization.trigger>
+				<!-- Raporty -->
+				<report.schedule.service.enqueue.job.cron>0 0 * * * ?</report.schedule.service.enqueue.job.cron>
+				<report.schedule.service.enqueue.messenger.job.cron>0 * * * * ?</report.schedule.service.enqueue.messenger.job.cron>
+				<!-- Zlecenia,zadania -->
+				<!-- Przeterminowane zlecenia -->
+				<overdue.depending.sla.code.job.trigger>0 15 0 * * ?</overdue.depending.sla.code.job.trigger>
+				<encapsulation.job.trigger>0 30 0 * * ?</encapsulation.job.trigger>
+				<!-- Zlecenia starsze niz (parametr systemowy) -->
+				<workorders.too.old.job.trigger>0 45 0 * * ?</workorders.too.old.job.trigger>
+				<!-- Retencja danych -->
+				<data.retention.job.trigger>0 20 0 * * ?</data.retention.job.trigger>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>com.comarch.fsm</groupId>
+					<artifactId>gis-google</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.hibernate.javax.persistence</groupId>
+							<artifactId>hibernate-jpa-2.0-api</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>ext-dev</id>
+			<properties>
+				<appended.spring.profiles>mock</appended.spring.profiles>
+				<!-- DB -->
+				<db.url>jdbc:oracle:thin:@dx1054:1521:fsmp</db.url>
+				<db.username>dev_fsm</db.username>
+				<db.password>dev_fsm</db.password>
+				<reportdb.url>jdbc:oracle:thin:@dx1054:1521:fsmp</reportdb.url>
+				<reportdb.username>dev_fsm</reportdb.username>
+				<reportdb.password>dev_fsm</reportdb.password>
+				<finderdb.url>jdbc:oracle:thin:@dx1054:1521:fsmp</finderdb.url>
+				<finderdb.username>dev_fsm</finderdb.username>
+				<finderdb.password>dev_fsm</finderdb.password>
+				<hibernate.showSql>true</hibernate.showSql>
+
+				<connectionPool.initialSize>1</connectionPool.initialSize>
+				<connectionPool.minIdle>1</connectionPool.minIdle>
+				<connectionPool.maxIdle>1</connectionPool.maxIdle>
+				<connectionPool.maxActive>15</connectionPool.maxActive>
+
+				<reportingConnectionPool.initialSize>1</reportingConnectionPool.initialSize>
+				<reportingConnectionPool.minIdle>1</reportingConnectionPool.minIdle>
+				<reportingConnectionPool.maxIdle>1</reportingConnectionPool.maxIdle>
+				<reportingConnectionPool.maxActive>15</reportingConnectionPool.maxActive>
+
+				<!-- JMS -->
+				<jms.url>t3://dx1055:7001</jms.url>
+				<jms.username>JmsUser</jms.username>
+				<jms.password>JmsUser-pass</jms.password>
+				<jms.servername>FSMJMSServer</jms.servername>
+				<jms.modulename>FSMSystemModule</jms.modulename>
+
+				<!-- e-mail -->
+				<email.host>smtp.comarch.com</email.host>
+				<email.port>25</email.port>
+				<email.protocol>smtp</email.protocol>
+				<email.username>info.co610@servers</email.username>
+				<email.password>6vUyLZutv</email.password>
+
+				<!-- tells where redirect when https is not supported -->
+				<http.port>7001</http.port>
+				<!-- tells where redirect when http is not supported -->
+				<https.port>8443</https.port>
+
+				<!-- Load balancer -->
+				<application.url>http://dx1055:7001</application.url>
+
+				<!-- NAVIGO -->
+				<navigo.component.address>http://dx1055/navigo</navigo.component.address>
+				<gis.server.address>http://dx1055/MapService/MapService.asmx</gis.server.address>
+				<map.component>google</map.component>
+
+				<!-- Notifications -->
+				<notifications.keystore.location>/u01/app/tomcatdev/.keystore</notifications.keystore.location>
+				<notifications.keystore.password>tomcat</notifications.keystore.password>
+				<notifications.keystore.privatekey.password>tomcat</notifications.keystore.privatekey.password>
+				<notifications.endpoint.url>
+					http://dx1055:8080/fsm-integration/biztalk-endpoint
+				</notifications.endpoint.url>
+				<notifications.sms-gateway.url>
+					https://dx1055:8080/fsm-integration/smsgateway-endpoint
+				</notifications.sms-gateway.url>
+
+				<!--Dispatcher -->
+				<dispatcher.logs.switched.on>true</dispatcher.logs.switched.on>
+				<dispatcher.logs.level>INFO</dispatcher.logs.level>
+
+				<smsgateway.auth.application>FSM</smsgateway.auth.application>
+				<smsgateway.auth.username>fsm</smsgateway.auth.username>
+				<smsgateway.auth.password>WY\u015AL\u0118 SMSEM</smsgateway.auth.password>
+
+				<!-- Kerberos -->
+				<kerberos.conf.file>/etc/krb5.conf</kerberos.conf.file>
+				<kerberos.keytab.file>file:/etc/krb5.keytab</kerberos.keytab.file>
+				<kerberos.domain.name>fsm.local</kerberos.domain.name>
+				<kerberos.service.principal>HTTP/krecik-mwm.fsm.local@FSM.LOCAL</kerberos.service.principal>
+				<!-- ActiveDirectory LDAP -->
+				<ad.ldap.url>ldap://sso.lodz2.comarch:389</ad.ldap.url>
+				<ad.ldap.domain>fsm.local</ad.ldap.domain>
+
+				<!-- JMS monitoring -->
+				<queue.monitoring.enabled>false</queue.monitoring.enabled>
+				<queue.monitoring.jmx.username />
+				<queue.monitoring.jmx.password />
+				<queue.monitoring.regexp>^.*DLQ.*$</queue.monitoring.regexp>
+				<queue.monitoring.include.empty.queues>true</queue.monitoring.include.empty.queues>
+				<queue.monitoring.connection.problem.notification>true</queue.monitoring.connection.problem.notification>
+				<queue.monitoring.service.url>service:jmx:rmi:///jndi/rmi://dx1055:11099/jmxrmi</queue.monitoring.service.url>
+
+				<!-- CACHE -->
+				<cache.peer.provider.config>peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=4441,
+					timeToLive=32</cache.peer.provider.config>
+				<cache.peer.listener.config.integration>port=40001</cache.peer.listener.config.integration>
+				<cache.peer.listener.config.mobile>port=40002</cache.peer.listener.config.mobile>
+				<cache.peer.listener.config.web>port=40003</cache.peer.listener.config.web>
+
+				<!-- CORE JOBS CRON TRIGGERS -->
+
+				<!-- Monitoring kolejek JMS -->
+				<queue.monitoring.trigger>0 0 22 * * ?</queue.monitoring.trigger>
+				<!-- Zaplanowane aktywacje/deaktywacje typow -->
+				<scheduled.type.changes.executor.job.trigger>0 0/5 * * * ?</scheduled.type.changes.executor.job.trigger>
+				<!-- Joby dispatchera -->
+				<dispatcher.kill.zombie.partition.job.trigger>0 * * * * ?</dispatcher.kill.zombie.partition.job.trigger>
+				<dispatcher.queued.task.collector.job.trigger>0 * * * * ?</dispatcher.queued.task.collector.job.trigger>
+				<dispatcher.update.priorities.job.trigger>0 0 1 * * ?</dispatcher.update.priorities.job.trigger>
+				<dispatcher.update.taskTimes.job.trigger>0 30 1 * * ?</dispatcher.update.taskTimes.job.trigger>
+				<!-- Nocna optymalizacja -->
+				<dispatcher.no.job.trigger>0 0 2 * * ?</dispatcher.no.job.trigger>
+				<!-- Synchronizacja mobile -->
+				<mobile.synchronization.trigger>0 0 1 * * ?</mobile.synchronization.trigger>
+				<!-- Raporty -->
+				<report.schedule.service.enqueue.job.cron>0 0 * * * ?</report.schedule.service.enqueue.job.cron>
+				<report.schedule.service.enqueue.messenger.job.cron>0 * * * * ?</report.schedule.service.enqueue.messenger.job.cron>
+				<!-- Zlecenia,zadania -->
+				<!-- Przeterminowane zlecenia -->
+				<overdue.depending.sla.code.job.trigger>0 15 0 * * ?</overdue.depending.sla.code.job.trigger>
+				<encapsulation.job.trigger>0 30 0 * * ?</encapsulation.job.trigger>
+				<!-- Zlecenia starsze niz (parametr systemowy) -->
+				<workorders.too.old.job.trigger>0 45 0 * * ?</workorders.too.old.job.trigger>
+				<!-- Retencja danych -->
+				<data.retention.job.trigger>0 20 0 * * ?</data.retention.job.trigger>
+				<!-- web.xml -->
+				<javax.faces.FACELETS_REFRESH_PERIOD>0</javax.faces.FACELETS_REFRESH_PERIOD>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>com.comarch.fsm</groupId>
+					<artifactId>gis-google</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.hibernate.javax.persistence</groupId>
+							<artifactId>hibernate-jpa-2.0-api</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>gucio_nexus</id>
+			<name>Comarch Maven respository</name>
+			<url>http://gucio.lodz2.comarch:8888/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>gucio_nexus</id>
+			<name>Comarch Maven respository</name>
+			<url>http://gucio.lodz2.comarch:8888/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

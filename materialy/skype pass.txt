@@ -1,0 +1,3 @@
+skype:
+log: przemo.stazysta.comarch
+haslo: przemostazysta123
