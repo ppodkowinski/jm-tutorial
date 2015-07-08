@@ -1,6 +1,0 @@
-czysty kod - robert c. martin
-kod doskonaly - steve mcconnell
-programatyczny programista, od czeladnika do mistrza - adrew hunt, dave thomas
-refaktoryzacja, ulepszanie struktury isniejacego kody - martin fowler
-
-https://projectlombok.org/
